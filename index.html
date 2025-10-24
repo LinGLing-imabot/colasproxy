@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cola's Proxy</title>
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="style.css" />
+  <script src="uv/uv.bundle.js"></script>
+  <script src="uv/uv.config.js"></script>
+  <script src="register-sw.js"></script>
+</head>
+<body>
+  <div class="center">
+    <h1>🥤 Cola's Proxy</h1>
+    <p class="subtitle">Browse freely — powered by Interstellar backend</p>
+    <form id="proxy-form">
+      <input id="url" type="text" placeholder="Enter a website URL..." autocomplete="off" />
+      <button type="submit">Go</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("proxy-form");
+    const input = document.getElementById("url");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      let url = input.value.trim();
+      if (!url.startsWith("http")) url = "https://" + url;
+      const encoded = await Ultraviolet.codec.xor.encode(url);
+      location.href = __uv$config.prefix + encoded;
+    });
+  </script>
+</body>
+</html>
